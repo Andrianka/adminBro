@@ -5,7 +5,6 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import Environment from './config/environment';
-
 import AdminBro from 'admin-bro';
 import { Database, Resource } from '@admin-bro/typeorm';
 import { validate } from 'class-validator';

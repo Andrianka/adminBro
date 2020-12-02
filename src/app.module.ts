@@ -23,7 +23,7 @@ const env = process.env.NODE_ENV;
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
+      rootPath: join(__dirname, '..', '/public'),
     }),
     ConfigModule.forRoot({
       envFilePath: [

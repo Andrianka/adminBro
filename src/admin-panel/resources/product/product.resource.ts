@@ -17,21 +17,24 @@ const ProductResource = {
       images: {
         components: {
           show: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/product/show-images-property',
+            '../../../../src/admin-panel/resources/product/images-property/show-images-property',
           ),
+          // edit: AdminBro.bundle(
+          //   '../../../../src/admin-panel/resources/product/images-property/edit-image-property',
+          // ),
         },
       },
       mainImage: {
         components: {
           list: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/product/list-image-property',
+            '../../../../src/admin-panel/resources/product/images-property/list-image-property',
           ),
           show: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/product/show-image-property',
+            '../../../../src/admin-panel/resources/product/images-property/show-image-property',
           ),
-          // edit: AdminBro.bundle(
-          //   '../../../../src/admin-panel/resources/product/edit-image-property',
-          // ),
+          edit: AdminBro.bundle(
+            '../../../../src/admin-panel/resources/product/images-property/edit-image-property',
+          ),
         },
       },
     },
@@ -42,13 +45,14 @@ const ProductResource = {
       provider: { local: { bucket: image_path } },
       properties: {
         file: 'mainImage.file',
-        filePath: 'mainImage.path',
+        filePath: 'mainImage.filePath',
         filename: 'mainImage.filename',
-        filesToDelete: 'mainImages.toDelete',
+        filesToDelete: 'mainImage.toDelete',
         key: 'mainImage.s3Key',
         bucket: 'mainImage.bucket',
         mimeType: 'mainImage.mime',
       },
+      uploadPath: (record, filename) => `${record.id()}/${filename}`,
       validation: { mimeTypes: ['image/png', 'image/jpeg'] },
     }),
     uploadFeature({
