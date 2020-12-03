@@ -19,9 +19,9 @@ const ProductResource = {
           show: AdminBro.bundle(
             '../../../../src/admin-panel/resources/product/images-property/show-images-property',
           ),
-          // edit: AdminBro.bundle(
-          //   '../../../../src/admin-panel/resources/product/images-property/edit-image-property',
-          // ),
+          edit: AdminBro.bundle(
+            '../../../../src/admin-panel/resources/product/images-property/edit-images-property',
+          ),
         },
       },
       mainImage: {
