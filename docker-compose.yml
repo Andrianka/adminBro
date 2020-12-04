@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  db:
+    container_name: postgres-db
+    image: postgres:13-alpine
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file: .env
+    networks:
+      - webnet
+
+  web:
+    container_name: shop-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/home/node/app
+      - /home/node/app/node_modules
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+      - 9229:9229
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - webnet
+
+volumes:
+  db_data:
+networks:
+  webnet:

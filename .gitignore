@@ -39,4 +39,5 @@ logfile
 .env
 .env.test
 
-public/*
+public/images/*
+db_data/
