@@ -12,10 +12,11 @@ import { typeOrmConfig } from './config/typeorm.config';
 import Environment from './config/environment';
 import { ProductModule } from './product/product.module';
 import { UserModule } from './user/user.module';
-
 import { AdminPanelModule } from './admin-panel/admin.module';
 import { PhotoModule } from './photo/photo.module';
 import adminOptions from './admin-panel/admin.options';
+import adminAuthConfig from './admin-panel/admin-auth.config';
+
 import { join } from 'path';
 
 const env = process.env.NODE_ENV;
@@ -36,6 +37,7 @@ const env = process.env.NODE_ENV;
     TypeOrmModule.forRoot(typeOrmConfig),
     AdminModule.createAdmin({
       adminBroOptions: adminOptions,
+      auth: adminAuthConfig,
     }),
     ProductModule,
     UserModule,
