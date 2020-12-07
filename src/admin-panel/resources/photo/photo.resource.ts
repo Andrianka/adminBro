@@ -1,18 +1,23 @@
 import uploadFeature from '@admin-bro/upload';
-import { join } from 'path';
 
 import { Photo } from '../../../photo/photo.entity';
-
-const image_path = join(__dirname, '../../../../public/');
 
 const createPhotoResource = {
   resource: Photo,
   options: {
-    listProperties: ['id', 's3Key', 'bucket', 'path'],
+    listProperties: ['id', 's3Key', 'bucket', 'file'],
   },
   features: [
     uploadFeature({
-      provider: { local: { bucket: image_path } },
+      provider: {
+        aws: {
+          bucket: process.env.AWS_BUCKET as string,
+          accessKeyId: process.env.AWS_ACCESS_KEY as string,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+          region: process.env.AWS_REGION as string,
+          expires: 10000,
+        },
+      },
       properties: {
         file: 'file',
         key: 's3Key',
