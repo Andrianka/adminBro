@@ -8,7 +8,12 @@ import { Admin } from '../../admin.entity';
 const AdminResource = {
   resource: Admin,
   options: {
-    properties: { password: { isVisible: false } },
+    properties: {
+      email: { required: true },
+      password: { isVisible: false, required: true },
+      isActive: { type: 'boolean', required: true },
+    },
+    listProperties: ['id', 'email', 'isActive'],
   },
   features: [
     passwordFeature({

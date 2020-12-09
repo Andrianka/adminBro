@@ -5,6 +5,12 @@ import { Photo } from '../../../photo/photo.entity';
 const createPhotoResource = {
   resource: Photo,
   options: {
+    properties: {
+      mime: { isVisible: false },
+      s3Key: { isVisible: false },
+      bucket: { isVisible: false },
+      path: { isVisible: false },
+    },
     listProperties: ['id', 's3Key', 'bucket', 'file'],
   },
   features: [

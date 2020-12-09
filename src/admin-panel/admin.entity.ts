@@ -5,10 +5,12 @@ export class Admin extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id?: string;
 
-  @Column({ unique: true })
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', unique: true, nullable: false })
   public email: string;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', nullable: false })
   public password: string;
+
+  @Column({ default: true })
+  public isActive: boolean;
 }

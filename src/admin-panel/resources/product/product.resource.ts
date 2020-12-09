@@ -10,6 +10,7 @@ const ProductResource = {
   resource: Product,
   options: {
     properties: {
+      description: { type: 'richtext' },
       mime: { isVisible: false },
       s3Key: { isVisible: false },
       bucket: { isVisible: false },

@@ -25,6 +25,8 @@ const adminAuthConfig = {
 
     const admin = await AdminRepository.findOne({ email });
 
+    if (!admin.isActive) return null;
+
     const passwordMatch =
       admin && (await argon2.verify(admin.password, password));
     if (passwordMatch && admin) {
