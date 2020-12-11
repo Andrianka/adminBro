@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { BasePropertyProps } from 'admin-bro';
-import PhotoImg from '../photo-img';
+import PhotoImg from '../../../../utils/photo-img';
 
 const ShowImageProperty: FC<BasePropertyProps> = ({ record }) => {
   const pathMain = '/images/' + record.params['mainImage.s3Key'];
