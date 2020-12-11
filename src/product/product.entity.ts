@@ -9,8 +9,8 @@ import {
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  public id?: number;
+  @PrimaryGeneratedColumn('uuid')
+  public id?: string;
 
   @Column({ type: 'varchar', nullable: false })
   public title: string;
@@ -23,8 +23,6 @@ export class Product extends BaseEntity {
 
   @Column({ nullable: true, type: 'jsonb' })
   public images: any;
-  // @Column({ nullable: true, type: 'jsonb' })
-  // public images: [];
 
   @CreateDateColumn({ name: 'created_at' })
   public createdAt: Date;

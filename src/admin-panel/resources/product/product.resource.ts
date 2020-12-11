@@ -39,7 +39,7 @@ const ProductResource = {
         },
       },
     },
-    listProperties: ['id', 'title', 'description', 'mainImage'],
+    listProperties: ['title', 'description', 'mainImage'],
   },
   features: [
     uploadFeature({

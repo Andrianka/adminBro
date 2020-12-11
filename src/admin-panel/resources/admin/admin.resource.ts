@@ -13,7 +13,7 @@ const AdminResource = {
       password: { isVisible: false, required: true },
       isActive: { type: 'boolean', required: true },
     },
-    listProperties: ['id', 'email', 'isActive'],
+    listProperties: ['email', 'isActive'],
   },
   features: [
     passwordFeature({

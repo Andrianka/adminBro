@@ -11,7 +11,7 @@ const createPhotoResource = {
       bucket: { isVisible: false },
       path: { isVisible: false },
     },
-    listProperties: ['id', 's3Key', 'bucket', 'file'],
+    listProperties: ['s3Key', 'bucket', 'file'],
   },
   features: [
     uploadFeature({

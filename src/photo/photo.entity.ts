@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { User } from 'src/user/user.entity';
 import {
   BaseEntity,
   Column,
@@ -7,12 +8,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 
 @Entity({ name: 'photos' })
 export class Photo extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  public id: number;
+  @PrimaryGeneratedColumn('uuid')
+  public id?: string;
 
   @Column({ nullable: true, name: 'key' })
   public s3Key: string;
@@ -31,4 +33,7 @@ export class Photo extends BaseEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   public updatedAt: Date;
+
+  @OneToOne(() => User, (user) => user.photo)
+  user: User;
 }
