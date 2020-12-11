@@ -27,6 +27,9 @@ const UserResource: ResourceWithOptions = {
           show: AdminBro.bundle(
             '../../../../src/admin-panel/resources/user/photo-property/show-photo-property',
           ),
+          edit: AdminBro.bundle(
+            '../../../../src/admin-panel/resources/user/photo-property/edit-photo-property',
+          ),
         },
       },
     },
