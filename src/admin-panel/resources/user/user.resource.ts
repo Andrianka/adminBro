@@ -1,4 +1,4 @@
-import { ResourceWithOptions } from 'admin-bro';
+import AdminBro, { ResourceWithOptions } from 'admin-bro';
 import uploadFeature from '@admin-bro/upload';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -19,8 +19,18 @@ const UserResource: ResourceWithOptions = {
         reference: 'Photo',
         isVisible: { edit: false, list: true },
       },
+      photo: {
+        components: {
+          list: AdminBro.bundle(
+            '../../../../src/admin-panel/resources/user/photo-property/list-photo-property',
+          ),
+          show: AdminBro.bundle(
+            '../../../../src/admin-panel/resources/user/photo-property/show-photo-property',
+          ),
+        },
+      },
     },
-    listProperties: ['username', 'photoId'],
+    listProperties: ['photo', 'username', 'photoId'],
     actions: {
       new: { after: [savePhoto] },
       edit: {

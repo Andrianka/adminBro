@@ -20,7 +20,7 @@ export const savePhoto = async (
   if (request.method === 'post') {
     const user = await User.findOne(context.record.id());
     if (user) {
-      user.photo = await createPhoto(context.record.params);
+      user.photo = await createPhoto(response.record.params);
       user.save();
     }
   }
