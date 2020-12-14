@@ -33,6 +33,6 @@ export class Photo extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   public updatedAt: Date;
 
-  @OneToOne(() => User, (user) => user.photo)
+  @OneToOne(() => User, (user) => user.photo, { onDelete: 'CASCADE' })
   user: User;
 }
