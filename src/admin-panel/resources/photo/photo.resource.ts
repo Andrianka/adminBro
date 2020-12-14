@@ -12,6 +12,10 @@ const createPhotoResource = {
       path: { isVisible: false },
     },
     listProperties: ['s3Key', 'bucket', 'file'],
+    sort: {
+      sortBy: 'createdAt',
+      direction: 'desc',
+    },
   },
   features: [
     uploadFeature({

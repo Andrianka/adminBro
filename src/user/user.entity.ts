@@ -30,12 +30,11 @@ export class User extends BaseEntity {
   @CreateDateColumn({ name: 'updated_at' })
   public updatedAt: Date;
 
-  @OneToOne(() => Photo, (photo) => photo.user, {
-    eager: true,
-    cascade: true,
-  })
+  @OneToOne(() => Photo)
   @JoinColumn()
   public photo: Photo;
+
   @RelationId((user: User) => user.photo)
-  photoId: string;
+  @Column({ nullable: true })
+  public photoId: string;
 }

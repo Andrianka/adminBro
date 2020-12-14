@@ -7,7 +7,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToMany,
   OneToOne,
 } from 'typeorm';
 
@@ -16,16 +15,16 @@ export class Photo extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   public id?: string;
 
-  @Column({ nullable: true, name: 'key' })
+  @Column({ name: 'key' })
   public s3Key: string;
 
-  @Column({ nullable: true })
+  @Column()
   public bucket: string;
 
-  @Column({ nullable: true })
+  @Column()
   public path: string;
 
-  @Column({ nullable: true })
+  @Column()
   public mime: string;
 
   @CreateDateColumn({ name: 'created_at' })

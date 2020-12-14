@@ -3,13 +3,16 @@ import { User } from '../../../user/user.entity';
 import { Photo } from '../../../photo/photo.entity';
 
 const createPhoto = async (params): Promise<Photo> => {
-  const photo = await new Photo();
-  photo.bucket = params.bucket;
-  photo.mime = params.mime;
-  photo.s3Key = params.s3Key;
-  photo.path = params.path;
+  const { photoId, bucket, mime, s3Key, path } = params;
 
-  return photo;
+  const photo = (await Photo.findOne({ id: photoId })) || Photo.create();
+
+  photo.bucket = bucket;
+  photo.mime = mime;
+  photo.s3Key = s3Key;
+  photo.path = path;
+
+  return photo.save();
 };
 
 export const savePhoto = async (
@@ -18,10 +21,30 @@ export const savePhoto = async (
   context,
 ): Promise<After<ActionResponse>> => {
   if (request.method === 'post') {
-    const user = await User.findOne(context.record.id());
-    if (user) {
+    const user = await User.findOne(context.record.id(), {
+      relations: ['photo'],
+    });
+    if (user && context.record.params.s3Key) {
+      const newPhoto = await createPhoto(response.record.params);
+      user.photo = newPhoto;
+      await user.save();
+    }
+  }
+  return response;
+};
+
+export const updatePhoto = async (
+  response,
+  request,
+  context,
+): Promise<After<ActionResponse>> => {
+  if (request.method === 'post') {
+    const user = await User.findOne(context.record.id(), {
+      relations: ['photo'],
+    });
+    if (context.record.params.s3Key !== null) {
       user.photo = await createPhoto(response.record.params);
-      user.save();
+      await user.save();
     }
   }
   return response;
