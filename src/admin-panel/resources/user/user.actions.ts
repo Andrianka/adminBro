@@ -1,4 +1,4 @@
-import { ActionResponse, After } from 'admin-bro';
+import { ActionResponse, After, RecordActionResponse } from 'admin-bro';
 import { User } from '../../../user/user.entity';
 import { Photo } from '../../../photo/photo.entity';
 
@@ -47,5 +47,17 @@ export const updatePhoto = async (
       await user.save();
     }
   }
+  return response;
+};
+
+export const deletePhoto = async (
+  response,
+  request,
+  context,
+): Promise<RecordActionResponse> => {
+  const photoId = context.record.params.photoId;
+
+  await (await Photo.findOne(photoId)).remove();
+
   return response;
 };

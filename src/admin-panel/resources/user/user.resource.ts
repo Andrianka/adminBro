@@ -6,7 +6,7 @@ const passwordFeature = require('@admin-bro/passwords');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const argon2 = require('argon2');
 
-import { savePhoto, updatePhoto } from './user.actions';
+import { savePhoto, updatePhoto, deletePhoto } from './user.actions';
 import { User } from '../../../user/user.entity';
 
 const UserResource: ResourceWithOptions = {
@@ -38,6 +38,9 @@ const UserResource: ResourceWithOptions = {
       new: { after: [savePhoto] },
       edit: {
         after: [updatePhoto],
+      },
+      delete: {
+        after: [deletePhoto],
       },
     },
     sort: {
