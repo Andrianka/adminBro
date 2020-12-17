@@ -47,4 +47,10 @@ export class Product extends BaseEntity {
 
   @CreateDateColumn({ name: 'updated_at' })
   public updatedAt: Date;
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product)
+  public cartItems!: CartItem[];
+
+  @OneToMany(() => Order, (order) => order.product)
+  public order: Order[];
 }

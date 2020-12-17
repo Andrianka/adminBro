@@ -10,7 +10,8 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: process.env.POSTGRES_DB,
   port: parseInt(process.env.POSTGRES_PORT),
   entities: [`${__dirname}/../**/*.entity{.ts,.js}`],
-  migrationsRun: true,
+  migrationsRun: false,
   synchronize: true,
   logging: 'all',
+  // dropSchema: true,
 };
