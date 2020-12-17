@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'path';
-import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { TypeOrmModule } from '@nestjs/typeorm/';
 import { AdminModule } from '@admin-bro/nestjs';
@@ -14,18 +13,15 @@ import { ProductModule } from './product/product.module';
 import { UserModule } from './user/user.module';
 import { AdminPanelModule } from './admin-panel/admin.module';
 import { PhotoModule } from './photo/photo.module';
+import { AuthModule } from './auth/auth.module';
+
 import adminOptions from './admin-panel/admin.options';
 import adminAuthConfig from './admin-panel/admin-auth.config';
-
-import { join } from 'path';
 
 const env = process.env.NODE_ENV;
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '/public'),
-    }),
     ConfigModule.forRoot({
       envFilePath: [
         path.resolve(
@@ -35,12 +31,14 @@ const env = process.env.NODE_ENV;
       ],
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
-    AdminModule.createAdmin({
-      adminBroOptions: adminOptions,
-      auth: adminAuthConfig,
-    }),
+    // AdminModule.createAdmin({
+    //   adminBroOptions: adminOptions,
+    //   //   // auth: adminAuthConfig,
+    // }),
+    AuthModule,
     ProductModule,
     UserModule,
+
     AdminPanelModule,
     PhotoModule,
   ],
