@@ -1,10 +1,6 @@
 import uploadFeature from '@admin-bro/upload';
-import AdminBro from 'admin-bro';
-import { join } from 'path';
 
 import { Product } from '../../../product/product.entity';
-
-const image_path = join(__dirname, '../../../../public/images');
 
 const ProductResource = {
   resource: Product,
@@ -15,35 +11,20 @@ const ProductResource = {
       s3Key: { isVisible: false },
       bucket: { isVisible: false },
       path: { isVisible: false },
-      images: {
-        components: {
-          show: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/product/images-property/show-images-property',
-          ),
-          edit: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/product/images-property/edit-images-property',
-          ),
-        },
-      },
-      mainImage: {
-        components: {
-          list: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/product/images-property/list-image-property',
-          ),
-          show: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/product/images-property/show-image-property',
-          ),
-          edit: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/product/images-property/edit-image-property',
-          ),
-        },
-      },
     },
-    listProperties: ['title', 'description', 'mainImage'],
+    listProperties: ['title', 'description', 'price', 'quantity', 'mainImage'],
   },
   features: [
     uploadFeature({
-      provider: { local: { bucket: image_path } },
+      provider: {
+        aws: {
+          bucket: process.env.AWS_BUCKET as string,
+          accessKeyId: process.env.AWS_ACCESS_KEY as string,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+          region: process.env.AWS_REGION as string,
+          expires: 10000,
+        },
+      },
       properties: {
         file: 'mainImage.file',
         filePath: 'mainImage.filePath',
@@ -53,11 +34,19 @@ const ProductResource = {
         bucket: 'mainImage.bucket',
         mimeType: 'mainImage.mime',
       },
-      uploadPath: (record, filename) => `${record.id()}/${filename}`,
+      uploadPath: (record, filename) => `product/${record.id()}/${filename}`,
       validation: { mimeTypes: ['image/png', 'image/jpeg'] },
     }),
     uploadFeature({
-      provider: { local: { bucket: image_path } },
+      provider: {
+        aws: {
+          bucket: process.env.AWS_BUCKET as string,
+          accessKeyId: process.env.AWS_ACCESS_KEY as string,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+          region: process.env.AWS_REGION as string,
+          expires: 10000,
+        },
+      },
       multiple: true,
       properties: {
         file: 'images.file',
@@ -69,7 +58,7 @@ const ProductResource = {
         mimeType: 'images.mime',
       },
       uploadPath: (record, filename) =>
-        `${record.id()}/product-photos/${filename}`,
+        `product/${record.id()}/product-photos/${filename}`,
       validation: { mimeTypes: ['image/png', 'image/jpeg'] },
     }),
   ],

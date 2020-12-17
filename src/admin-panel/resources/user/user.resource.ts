@@ -1,56 +1,21 @@
 import AdminBro, { ResourceWithOptions } from 'admin-bro';
 import uploadFeature from '@admin-bro/upload';
-
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const passwordFeature = require('@admin-bro/passwords');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const argon2 = require('argon2');
 
-import {
-  savePhoto,
-  updatePhoto,
-  deletePhoto,
-  deleteAllPhoto,
-} from './user.actions';
 import { User } from '../../../user/user.entity';
 
 const UserResource: ResourceWithOptions = {
   resource: User,
   options: {
     properties: {
-      username: { isRequired: true },
+      email: { isRequired: true },
       password: { isVisible: false, isRequired: true },
-      photoId: {
-        reference: 'Photo',
-        isVisible: { edit: false, list: true },
-      },
-      photo: {
-        components: {
-          list: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/user/photo-property/list-photo-property',
-          ),
-          show: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/user/photo-property/show-photo-property',
-          ),
-          edit: AdminBro.bundle(
-            '../../../../src/admin-panel/resources/user/photo-property/edit-photo-property',
-          ),
-        },
-      },
     },
-    listProperties: ['photo', 'username', 'photoId'],
-    actions: {
-      new: { after: [savePhoto] },
-      edit: {
-        after: [updatePhoto],
-      },
-      delete: {
-        after: [deletePhoto],
-      },
-      bulkDelete: {
-        after: [deleteAllPhoto],
-      },
-    },
+    listProperties: ['photo', 'email', 'firstName', 'lastName'],
+
     sort: {
       sortBy: 'createdAt',
       direction: 'desc',
@@ -75,11 +40,13 @@ const UserResource: ResourceWithOptions = {
         },
       },
       properties: {
-        file: 'photo',
-        key: 's3Key',
-        bucket: 'bucket',
-        mimeType: 'mime',
-        filePath: 'path',
+        file: 'photo.file',
+        filePath: 'photo.filePath',
+        filename: 'photo.filename',
+        filesToDelete: 'photo.toDelete',
+        key: 'photo.s3Key',
+        bucket: 'photo.bucket',
+        mimeType: 'photo.mime',
       },
       uploadPath: (record, filename) =>
         `users/${record.id()}/photo/${filename}`,

@@ -1,40 +1,39 @@
 import {
-  BaseEntity,
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  JoinColumn,
-  OneToOne,
-  RelationId,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  OneToMany,
   CreateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Photo } from '../photo/photo.entity';
 
-@Entity({ name: 'user' })
+import { Order } from '../order/order.entity';
+
+@Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  public id?: string;
+  id?: string;
 
   @Column({ unique: true })
-  @Column({ type: 'varchar' })
-  public username: string;
+  email: string;
 
   @Exclude({ toPlainOnly: true })
-  @Column({ type: 'text' })
-  public password: string;
+  @Column()
+  password: string;
+
+  @Column({ nullable: true })
+  firstName?: string;
+
+  @Column({ nullable: true })
+  lastName?: string;
+
+  @Column({ nullable: true, type: 'jsonb' })
+  public photo?: any;
 
   @CreateDateColumn({ name: 'created_at' })
   public createdAt: Date;
 
   @CreateDateColumn({ name: 'updated_at' })
   public updatedAt: Date;
-
-  @OneToOne(() => Photo)
-  @JoinColumn()
-  public photo: Photo;
-
-  @RelationId((user: User) => user.photo)
-  @Column({ nullable: true })
-  public photoId: string;
 }

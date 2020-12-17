@@ -13,4 +13,7 @@ export class Admin extends BaseEntity {
 
   @Column({ default: true })
   public isActive: boolean;
+
+  @Column({ nullable: true, type: 'jsonb' })
+  public photo: any;
 }

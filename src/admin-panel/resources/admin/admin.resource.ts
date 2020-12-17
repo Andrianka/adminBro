@@ -2,7 +2,7 @@
 const passwordFeature = require('@admin-bro/passwords');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const argon2 = require('argon2');
-
+import uploadFeature from '@admin-bro/upload';
 import { Admin } from '../../admin.entity';
 
 const AdminResource = {
@@ -16,6 +16,28 @@ const AdminResource = {
     listProperties: ['email', 'isActive'],
   },
   features: [
+    uploadFeature({
+      provider: {
+        aws: {
+          bucket: process.env.AWS_BUCKET as string,
+          accessKeyId: process.env.AWS_ACCESS_KEY as string,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+          region: process.env.AWS_REGION as string,
+          expires: 10000,
+        },
+      },
+      properties: {
+        file: 'photo.file',
+        filePath: 'photo.filePath',
+        filename: 'photo.filename',
+        filesToDelete: 'photo.toDelete',
+        key: 'photo.s3Key',
+        bucket: 'photo.bucket',
+        mimeType: 'photo.mime',
+      },
+      uploadPath: (record, filename) => `admin/${record.id()}/${filename}`,
+      validation: { mimeTypes: ['image/png', 'image/jpeg'] },
+    }),
     passwordFeature({
       properties: {
         encryptedPassword: 'password',
