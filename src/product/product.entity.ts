@@ -8,6 +8,7 @@ import {
   Column,
   CreateDateColumn,
   OneToMany,
+  BeforeUpdate,
 } from 'typeorm';
 
 @Entity({ name: 'product' })
@@ -36,6 +37,7 @@ export class Product extends BaseEntity {
     default: 0,
   })
   public quantity: number;
+
   @Column({ nullable: true, type: 'jsonb' })
   public mainImage: any;
 
@@ -47,6 +49,9 @@ export class Product extends BaseEntity {
 
   @CreateDateColumn({ name: 'updated_at' })
   public updatedAt: Date;
+
+  @Column({ name: 'is_available', default: false })
+  public isAvailable: boolean;
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.product)
   public cartItems!: CartItem[];

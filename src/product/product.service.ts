@@ -13,15 +13,26 @@ export class ProductService {
     private productRepository: Repository<Product>,
   ) {}
 
-  async findAll(): Promise<Product[]> {
-    return await this.productRepository.find();
+  async findAll(available: boolean): Promise<Product[]> {
+    if (available == null) {
+      return await this.productRepository.find();
+    }
+    return await this.productRepository.find({ isAvailable: available });
   }
 
-  async findOne(id: string): Promise<Product> {
-    try {
-      return await this.productRepository.findOne(id);
-    } catch (error) {
-      throw new CustomNotFoundException('Product');
+  async findOne(id: string, available: boolean): Promise<Product> {
+    if (available == null) {
+      // eslint-disable-next-line no-var
+      var product = await this.productRepository.findOne(id);
     }
+
+    product = await this.productRepository.findOne({
+      id: id,
+      isAvailable: available,
+    });
+
+    if (product == undefined) throw new CustomNotFoundException('Product');
+
+    return product;
   }
 }

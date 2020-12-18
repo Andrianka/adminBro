@@ -9,13 +9,33 @@ import { ProductResponse } from './interfaces/product.interface';
 export class ProductController {
   constructor(private productService: ProductService) {}
 
+  @Get('archive')
+  public async getProductsNonAvailable(): Promise<Product[]> {
+    return this.productService.findAll(false);
+  }
+
+  @Get(':id/archive')
+  public async getProductNonAvailable(@Param('id') id): Promise<Product> {
+    return this.productService.findOne(id, false);
+  }
+
+  @Get('all')
+  public async getProductsAll(): Promise<ProductResponse[]> {
+    return this.productService.findAll(null);
+  }
+
+  @Get('all/:id')
+  public async getProductAll(@Param('id') id): Promise<Product> {
+    return this.productService.findOne(id, null);
+  }
+
   @Get()
   public async getProducts(): Promise<ProductResponse[]> {
-    return this.productService.findAll();
+    return this.productService.findAll(true);
   }
 
   @Get(':id')
   public async getProduct(@Param('id') id): Promise<Product> {
-    return this.productService.findOne(id);
+    return this.productService.findOne(id, true);
   }
 }
