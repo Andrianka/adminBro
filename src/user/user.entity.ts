@@ -36,4 +36,7 @@ export class User extends BaseEntity {
 
   @CreateDateColumn({ name: 'updated_at' })
   public updatedAt: Date;
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 }
