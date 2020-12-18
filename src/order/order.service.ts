@@ -32,23 +32,23 @@ export class OrderService {
   async create(orderData: CreateOrderDto, user: User): Promise<Order> {
     const { cartItems, ...createData } = orderData;
 
-    const totalPrice = await this.setTotalPrice(cartItems);
+    const sum = await this.setTotalPrice(cartItems);
 
-    const newOrder = this.orderRepository.create({
+    const newOrder = await this.orderRepository.create({
       cartItems,
     });
 
-    newOrder.totalPrice = totalPrice;
+    newOrder.totalPrice = sum;
     newOrder.user = user;
     return await newOrder.save();
   }
 
   private async setTotalPrice(cartItems): Promise<number> {
-    let totalPrice = 0;
-    cartItems.map(async (item, index) => {
-      const productPrice = await (await Product.findOne(item.product_id)).price;
-      return (totalPrice += item.quantity * productPrice);
-    });
-    return totalPrice;
+    const sum = cartItems.reduce(
+      async (a, { quantity, productId }) =>
+        a + quantity * (await (await Product.findOne(productId)).price),
+      0,
+    );
+    return sum;
   }
 }

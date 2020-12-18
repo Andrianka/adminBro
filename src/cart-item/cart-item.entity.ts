@@ -1,5 +1,7 @@
-import { Order } from 'src/order/order.entity';
-import { Product } from 'src/product/product.entity';
+import ProductAvailableException from '../exceptions/productAvailable.exception';
+import CustomNotFoundException from '../exceptions/customNotFound.exception';
+import { Order } from '../order/order.entity';
+import { Product } from '../product/product.entity';
 import {
   BaseEntity,
   Entity,
@@ -61,12 +63,29 @@ export class CartItem extends BaseEntity {
   public product!: Product;
 
   @BeforeInsert()
-  async setPrice() {
-    const getProduct = await Product.findOne(this.productId);
+  async updateAfterOrder() {
+    const getProduct = await Product.findOne({
+      id: this.productId,
+      isAvailable: true,
+    });
+    if (!getProduct) throw new CustomNotFoundException('Product');
+
+    await this.setPrice(getProduct);
+    await this.changeProductQuantity(getProduct);
+  }
+
+  private async setPrice(getProduct) {
     this.unitPrice = await getProduct.price;
-    console.log('cart item entity price', this.unitPrice);
     this.totalPrice = this.unitPrice * this.quantity;
     this.product = getProduct;
-    console.log('prod', this.product);
+  }
+
+  private async changeProductQuantity(getProduct) {
+    getProduct.quantity -= this.quantity;
+
+    if (getProduct.quantity < 0)
+      throw new ProductAvailableException('Products');
+
+    return await getProduct.save();
   }
 }

@@ -1,4 +1,3 @@
-// import { Photo } from 'src/photo/photo.entity';
 import { CartItem } from '../cart-item/cart-item.entity';
 import { Order } from '../order/order.entity';
 import {
@@ -58,4 +57,11 @@ export class Product extends BaseEntity {
 
   @OneToMany(() => Order, (order) => order.product)
   public order: Order[];
+
+  @BeforeUpdate()
+  async setAvailable() {
+    return this.quantity == 0 && this.isAvailable
+      ? (this.isAvailable = false)
+      : (this.isAvailable = true);
+  }
 }

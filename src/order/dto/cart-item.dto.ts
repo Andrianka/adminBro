@@ -1,7 +1,7 @@
 import { IsInt, IsNotEmpty } from 'class-validator';
 
 class CartItemDto {
-  @IsNotEmpty() public product_id!: string;
+  @IsNotEmpty() public productId!: string;
   @IsNotEmpty() @IsInt() public quantity: number;
 }
 
