@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from '../user/user.service';
@@ -33,10 +33,11 @@ export class AuthService {
     plainTextPassword: string,
     hashedPassword: string,
   ) {
-    const isPasswordMatching = await bcrypt.compare(
-      plainTextPassword,
+    const isPasswordMatching = await argon2.verify(
       hashedPassword,
+      plainTextPassword,
     );
+
     if (!isPasswordMatching) {
       throw new HttpException(
         'Wrong credentials provided',

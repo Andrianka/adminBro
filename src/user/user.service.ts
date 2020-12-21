@@ -6,7 +6,7 @@ import { UserResponse } from './interfaces/user.interface';
 import CreateUserDto from './dto/create-user.dto';
 import UpdateUserDto from './dto/update-user.dto';
 
-import * as bcrypt from 'bcrypt';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
@@ -58,6 +58,6 @@ export class UserService {
   }
 
   private async hashPassword(passwordInPlaintext): Promise<string> {
-    return await bcrypt.hash(passwordInPlaintext, 10);
+    return await argon2.hash(passwordInPlaintext);
   }
 }

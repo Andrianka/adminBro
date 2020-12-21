@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const passwordFeature = require('@admin-bro/passwords');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const argon2 = require('argon2');
+
+import * as argon2 from 'argon2';
 import uploadFeature from '@admin-bro/upload';
 import { Admin } from '../../admin.entity';
 

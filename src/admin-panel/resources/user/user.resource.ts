@@ -2,8 +2,7 @@ import AdminBro, { ResourceWithOptions } from 'admin-bro';
 import uploadFeature from '@admin-bro/upload';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const passwordFeature = require('@admin-bro/passwords');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const argon2 = require('argon2');
+import * as argon2 from 'argon2';
 
 import { User } from '../../../user/user.entity';
 
