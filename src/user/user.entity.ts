@@ -10,7 +10,7 @@ import { Exclude } from 'class-transformer';
 
 import { Order } from '../order/order.entity';
 
-@Entity()
+@Entity('user')
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
@@ -36,6 +36,14 @@ export class User extends BaseEntity {
 
   @CreateDateColumn({ name: 'updated_at' })
   public updatedAt: Date;
+
+  //Password fields
+  @Exclude()
+  @Column({ name: 'password_reset_token', type: 'uuid', nullable: true })
+  public passwordResetToken!: string;
+
+  @CreateDateColumn({ name: 'password_reset_created_at', nullable: true })
+  public passwordResetCreatedAt?: Date;
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];

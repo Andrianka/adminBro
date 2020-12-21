@@ -4,7 +4,7 @@ class UpdateUserDto {
   @IsOptional()
   @IsEmail({}, { message: 'isEmail' })
   @IsNotEmpty()
-  email: string;
+  email?: string;
 
   @IsOptional()
   firstName?: string;
@@ -13,6 +13,9 @@ class UpdateUserDto {
 
   @IsOptional()
   photo?: any;
+
+  @IsOptional()
+  passwordResetToken: string;
 }
 
 export default UpdateUserDto;

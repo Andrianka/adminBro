@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 
@@ -7,6 +12,8 @@ import { User } from '../user/user.entity';
 import CredentialsDto from './dto/credentials.dto';
 import tokenPayload from './interfaces/tokenPayload.interface';
 import { AuthResponse } from './interfaces/authResponse.interface';
+
+import { generateToken } from '../utils/generateToken';
 
 @Injectable()
 export class AuthService {
@@ -74,5 +81,32 @@ export class AuthService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  public async requestPasswordReset(email: string): Promise<void> {
+    const token = generateToken(email);
+    const user = await this.userService.getByEmail(email);
+    if (user) {
+      await this.userService.update(user, {
+        passwordResetToken: token,
+      });
+
+      //Send email
+    }
+  }
+
+  public async resetPassword(
+    token: string,
+    newPassword: string,
+  ): Promise<AuthResponse> {
+    const user = await this.userService.updatePassword(token, newPassword);
+
+    if (!user) {
+      throw new NotFoundException(
+        'Password was reset or customer does not exist',
+      );
+    }
+
+    return this.login(user);
   }
 }

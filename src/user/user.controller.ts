@@ -38,7 +38,7 @@ export class UserController {
     @Body() userData: UpdateUserDto,
     @Req() req: RequestWithUser,
   ): Promise<UserResponse> {
-    return this.userService.update(userData, req.user);
+    return this.userService.update(req.user, userData);
   }
 
   @Delete()

@@ -30,8 +30,8 @@ export class UserService {
   }
 
   public async update(
-    userData: UpdateUserDto,
     currentUser: User,
+    userData: UpdateUserDto,
   ): Promise<User> {
     await this.userRepository.update(currentUser.id, userData);
     const updatedUser = await this.findOne(currentUser.id);
@@ -61,6 +61,19 @@ export class UserService {
     if (user) return user;
 
     return null;
+  }
+
+  public async updatePassword(
+    token: string,
+    newPassword: string,
+  ): Promise<User> {
+    const user = await this.userRepository.findOne({
+      passwordResetToken: token,
+    });
+    user.password = await this.hashPassword(newPassword);
+    user.passwordResetToken = undefined;
+    user.passwordResetCreatedAt = undefined;
+    return await user.save();
   }
 
   private async hashPassword(passwordInPlaintext): Promise<string> {
