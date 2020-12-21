@@ -7,10 +7,15 @@ import {
   Patch,
   ClassSerializerInterceptor,
   UseInterceptors,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserResponse } from './interfaces/user.interface';
 import UpdateUserDto from './dto/update-user.dto';
+import RequestWithUser from '../auth/interfaces/requestWithUser.interface';
+
+import JwtAuthenticationGuard from '../auth/guards/jwtAuth.guard';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -27,16 +32,18 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch()
+  @UseGuards(JwtAuthenticationGuard)
   public async update(
-    @Param('id') id,
     @Body() userData: UpdateUserDto,
+    @Req() req: RequestWithUser,
   ): Promise<UserResponse> {
-    return this.userService.update(id, userData);
+    return this.userService.update(userData, req.user);
   }
 
-  @Delete(':id')
-  public async delete(@Param('id') id): Promise<any> {
-    return this.userService.delete(id);
+  @Delete()
+  @UseGuards(JwtAuthenticationGuard)
+  public async delete(@Req() req: RequestWithUser): Promise<any> {
+    return this.userService.delete(req.user);
   }
 }

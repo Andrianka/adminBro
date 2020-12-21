@@ -1,9 +1,18 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 
 class UpdateUserDto {
-  @IsNotEmpty() @IsEmail() email: string;
-  firstName: string;
-  lastName: string;
+  @IsOptional()
+  @IsEmail({}, { message: 'isEmail' })
+  @IsNotEmpty()
+  email: string;
+
+  @IsOptional()
+  firstName?: string;
+  @IsOptional()
+  lastName?: string;
+
+  @IsOptional()
+  photo?: any;
 }
 
 export default UpdateUserDto;

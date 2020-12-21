@@ -29,15 +29,21 @@ export class UserService {
     return newUser.save();
   }
 
-  public async update(id: string, userData: UpdateUserDto): Promise<any> {
-    const user = this.findOne(id);
-    if (user) {
-      return await this.userRepository.update(id, userData);
-    }
+  public async update(
+    userData: UpdateUserDto,
+    currentUser: User,
+  ): Promise<User> {
+    await this.userRepository.update(currentUser.id, userData);
+    const updatedUser = await this.findOne(currentUser.id);
+    return updatedUser;
   }
 
-  public async delete(id: string): Promise<DeleteResult> {
-    return await this.userRepository.delete(id);
+  public async delete(currentUser: User): Promise<DeleteResult> {
+    const user = await this.findOne(currentUser.id);
+    if (user) {
+      return await this.userRepository.delete(user.id);
+    }
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
 
   async getByEmail(email: string) {

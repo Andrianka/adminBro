@@ -6,6 +6,7 @@ class CreateUserDto implements CreateUserInterface {
   firstName?: string;
   lastName?: string;
   @IsNotEmpty() password: string;
+  photo?: any;
 }
 
 export default CreateUserDto;
