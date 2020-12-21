@@ -32,10 +32,10 @@ const env = process.env.NODE_ENV;
       ],
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
-    // AdminModule.createAdmin({
-    // adminBroOptions: adminOptions,
-    // // // auth: adminAuthConfig,
-    // }),
+    AdminModule.createAdmin({
+      adminBroOptions: adminOptions,
+      auth: adminAuthConfig,
+    }),
     AuthModule,
     ProductModule,
     UserModule,
