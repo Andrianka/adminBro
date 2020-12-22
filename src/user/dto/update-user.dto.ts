@@ -13,9 +13,6 @@ class UpdateUserDto {
 
   @IsOptional()
   photo?: any;
-
-  @IsOptional()
-  passwordResetToken: string;
 }
 
 export default UpdateUserDto;

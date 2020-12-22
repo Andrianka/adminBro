@@ -68,12 +68,18 @@ export class UserService {
     newPassword: string,
   ): Promise<User> {
     const user = await this.userRepository.findOne({
-      passwordResetToken: token,
+      where: { passwordReset: { token: token } },
     });
     user.password = await this.hashPassword(newPassword);
-    user.passwordResetToken = undefined;
-    user.passwordResetCreatedAt = undefined;
+    user.passwordReset.token = null;
+    user.passwordReset.createdAt = null;
     return await user.save();
+  }
+
+  public async updatePasswordReset(user: User, token: string) {
+    await this.userRepository.update(user.id, {
+      passwordReset: { token: token },
+    });
   }
 
   private async hashPassword(passwordInPlaintext): Promise<string> {

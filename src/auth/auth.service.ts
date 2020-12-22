@@ -87,9 +87,7 @@ export class AuthService {
     const token = generateToken(email);
     const user = await this.userService.getByEmail(email);
     if (user) {
-      await this.userService.update(user, {
-        passwordResetToken: token,
-      });
+      await this.userService.updatePasswordReset(user, token);
 
       //Send email
     }
