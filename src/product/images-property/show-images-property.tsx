@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box } from '@admin-bro/design-system';
-import PhotoImg from '../../../../utils/photo-img';
+import PhotoImg from '../../utils/photo-img';
 
 const ShowImageProperty = ({ record }) => {
   const images = [];

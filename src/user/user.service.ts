@@ -71,8 +71,7 @@ export class UserService {
       where: { passwordReset: { token: token } },
     });
     user.password = await this.hashPassword(newPassword);
-    user.passwordReset.token = null;
-    user.passwordReset.createdAt = null;
+    user.passwordReset = { token: null, createdAt: null };
     return await user.save();
   }
 

@@ -4,7 +4,7 @@ import uploadFeature from '@admin-bro/upload';
 const passwordFeature = require('@admin-bro/passwords');
 import * as argon2 from 'argon2';
 
-import { User } from '../../../user/user.entity';
+import { User } from './user.entity';
 
 const UserResource: ResourceWithOptions = {
   resource: User,

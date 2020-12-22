@@ -18,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
 import adminOptions from './admin-panel/admin.options';
 import adminAuthConfig from './admin-panel/admin-auth.config';
 import { OrderModule } from './order/order.module';
+import { CategoryModule } from './category/category.module';
 
 const env = process.env.NODE_ENV;
 
@@ -34,7 +35,7 @@ const env = process.env.NODE_ENV;
     TypeOrmModule.forRoot(typeOrmConfig),
     AdminModule.createAdmin({
       adminBroOptions: adminOptions,
-      auth: adminAuthConfig,
+      // auth: adminAuthConfig,
     }),
     AuthModule,
     ProductModule,
@@ -42,6 +43,7 @@ const env = process.env.NODE_ENV;
     OrderModule,
     AdminPanelModule,
     PhotoModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -3,7 +3,7 @@ const passwordFeature = require('@admin-bro/passwords');
 
 import * as argon2 from 'argon2';
 import uploadFeature from '@admin-bro/upload';
-import { Admin } from '../../admin.entity';
+import { Admin } from './admin.entity';
 
 const AdminResource = {
   resource: Admin,

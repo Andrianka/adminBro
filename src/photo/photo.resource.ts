@@ -1,6 +1,6 @@
 import uploadFeature from '@admin-bro/upload';
 
-import { Photo } from '../../../photo/photo.entity';
+import { Photo } from './photo.entity';
 
 const createPhotoResource = {
   resource: Photo,

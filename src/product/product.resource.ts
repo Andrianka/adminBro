@@ -1,18 +1,41 @@
 import uploadFeature from '@admin-bro/upload';
+import { saveCategory } from './product.actions';
 
-import { Product } from '../../../product/product.entity';
+import { Product } from './product.entity';
+
+const shopNav = {
+  name: 'Manage Shop',
+};
 
 const ProductResource = {
   resource: Product,
   options: {
+    navigation: shopNav,
     properties: {
+      categories: {
+        reference: 'Category',
+        isArray: true,
+      },
       description: { type: 'richtext' },
       mime: { isVisible: false },
       s3Key: { isVisible: false },
       bucket: { isVisible: false },
       path: { isVisible: false },
     },
-    listProperties: ['title', 'description', 'price', 'quantity', 'mainImage'],
+    listProperties: [
+      'categories',
+      'title',
+      'description',
+      'price',
+      'quantity',
+      'mainImage',
+    ],
+    actions: {
+      new: { after: [saveCategory] },
+      edit: {
+        after: [saveCategory],
+      },
+    },
   },
   features: [
     uploadFeature({

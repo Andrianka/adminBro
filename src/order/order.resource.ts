@@ -1,8 +1,13 @@
-import { Order } from '../../../order/order.entity';
+import { Order } from './order.entity';
+
+const shopNav = {
+  name: 'Manage Shop',
+};
 
 const OrderResource = {
   resource: Order,
   options: {
+    navigation: shopNav,
     properties: {
       userId: {
         reference: 'User',

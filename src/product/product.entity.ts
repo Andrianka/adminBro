@@ -8,7 +8,13 @@ import {
   CreateDateColumn,
   OneToMany,
   BeforeUpdate,
+  ManyToOne,
+  JoinColumn,
+  ManyToMany,
+  JoinTable,
+  RelationId,
 } from 'typeorm';
+import { Category } from 'src/category/category.entity';
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity {
@@ -57,6 +63,16 @@ export class Product extends BaseEntity {
 
   @OneToMany(() => Order, (order) => order.product)
   public order: Order[];
+
+  @RelationId((product: Product) => product.categories)
+  categoryIds: number[];
+
+  @ManyToMany(() => Category, (category) => category.products, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinTable()
+  categories: Category[];
 
   @BeforeUpdate()
   async setAvailable() {
