@@ -1,6 +1,6 @@
 import uploadFeature from '@admin-bro/upload';
+import AdminBro from 'admin-bro';
 import { saveCategory } from './product.actions';
-
 import { Product } from './product.entity';
 
 const shopNav = {
@@ -13,8 +13,14 @@ const ProductResource = {
     navigation: shopNav,
     properties: {
       categories: {
-        reference: 'Category',
-        isArray: true,
+        // reference: 'Category',
+        type: 'mixed',
+        // isArray: true,
+        components: {
+          list: AdminBro.bundle('./components/list-category'),
+          show: AdminBro.bundle('./components/show-category'),
+          // edit: AdminBro.bundle('./components/edit-category'),
+        },
       },
       description: { type: 'richtext' },
       mime: { isVisible: false },
@@ -31,8 +37,9 @@ const ProductResource = {
       'mainImage',
     ],
     actions: {
-      new: { after: [saveCategory] },
+      new: { showInDrawer: true, after: [saveCategory] },
       edit: {
+        showInDrawer: true,
         after: [saveCategory],
       },
     },

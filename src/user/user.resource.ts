@@ -9,6 +9,10 @@ import { User } from './user.entity';
 const UserResource: ResourceWithOptions = {
   resource: User,
   options: {
+    navigation: {
+      name: null,
+      icon: 'User',
+    },
     properties: {
       email: { isRequired: true },
       password: { isVisible: false, isRequired: true },

@@ -8,6 +8,10 @@ import { Admin } from './admin.entity';
 const AdminResource = {
   resource: Admin,
   options: {
+    navigation: {
+      name: null,
+      icon: 'User',
+    },
     properties: {
       email: { required: true },
       password: { isVisible: false, required: true },

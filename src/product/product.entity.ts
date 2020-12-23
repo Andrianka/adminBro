@@ -8,8 +8,6 @@ import {
   CreateDateColumn,
   OneToMany,
   BeforeUpdate,
-  ManyToOne,
-  JoinColumn,
   ManyToMany,
   JoinTable,
   RelationId,
