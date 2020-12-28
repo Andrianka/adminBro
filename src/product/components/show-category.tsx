@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Badge, Box, Label, Link, Text } from '@admin-bro/design-system';
+import { Badge, Box, Label, Text } from '@admin-bro/design-system';
 import { RecordJSON } from 'admin-bro';
 import { unflatten } from 'flat';
 

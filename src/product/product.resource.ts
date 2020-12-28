@@ -13,13 +13,13 @@ const ProductResource = {
     navigation: shopNav,
     properties: {
       categories: {
-        // reference: 'Category',
+        reference: 'Category',
         type: 'mixed',
-        // isArray: true,
+        isArray: true,
         components: {
           list: AdminBro.bundle('./components/list-category'),
           show: AdminBro.bundle('./components/show-category'),
-          // edit: AdminBro.bundle('./components/edit-category'),
+          edit: AdminBro.bundle('./components/edit-category'),
         },
       },
       description: { type: 'richtext' },
@@ -37,9 +37,8 @@ const ProductResource = {
       'mainImage',
     ],
     actions: {
-      new: { showInDrawer: true, after: [saveCategory] },
+      new: { after: [saveCategory] },
       edit: {
-        showInDrawer: true,
         after: [saveCategory],
       },
     },

@@ -17,8 +17,8 @@ export const saveCategory = async (
 
     const params = unflatten(request.payload);
 
-    if (product && record.populated) {
-      const categories = await Category.findByIds(params.categories);
+    if (product && record.populated && params.categories) {
+      const categories = (await Category.findByIds(params.categories)) || [];
 
       product.categories = categories;
       await Product.save(product);

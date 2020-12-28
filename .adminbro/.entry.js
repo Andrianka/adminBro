@@ -17,15 +17,17 @@ import Component8 from '../dist/product/components/list-category'
 AdminBro.UserComponents.Component8 = Component8
 import Component9 from '../dist/product/components/show-category'
 AdminBro.UserComponents.Component9 = Component9
-import Component10 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/edit'
+import Component10 from '../dist/product/components/edit-category'
 AdminBro.UserComponents.Component10 = Component10
-import Component11 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/list'
+import Component11 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/edit'
 AdminBro.UserComponents.Component11 = Component11
-import Component12 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/show'
+import Component12 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/list'
 AdminBro.UserComponents.Component12 = Component12
-import Component13 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/edit'
+import Component13 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/show'
 AdminBro.UserComponents.Component13 = Component13
-import Component14 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/list'
+import Component14 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/edit'
 AdminBro.UserComponents.Component14 = Component14
-import Component15 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/show'
+import Component15 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/list'
 AdminBro.UserComponents.Component15 = Component15
+import Component16 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/show'
+AdminBro.UserComponents.Component16 = Component16
