@@ -33,7 +33,7 @@ export class Order extends BaseEntity {
   @CreateDateColumn({ name: 'updated_at' })
   public updatedAt?: Date;
 
-  @ManyToOne(() => User, (user) => user.orders)
+  @ManyToOne(() => User, (user) => user.orders, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'user_id' })
   user: User;
 

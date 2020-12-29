@@ -19,14 +19,24 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  public findOne(id: string): Promise<User> {
-    return this.userRepository.findOne(id);
+  public async findOne(id: string): Promise<User> {
+    const user = await this.userRepository.findOne(id);
+    if (user) {
+      return user;
+    }
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async create(userData: CreateUserDto): Promise<UserResponse> {
-    const newUser = this.userRepository.create(userData);
-    newUser.password = await this.hashPassword(userData.password);
-    return newUser.save();
+    const hashedPassword = await this.hashPassword(userData.password);
+    const newUser = this.userRepository.save({
+      ...userData,
+      password: hashedPassword,
+    });
+    return newUser;
   }
 
   public async update(
@@ -46,7 +56,7 @@ export class UserService {
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
 
-  async getByEmail(email: string) {
+  async getByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({ email });
     if (user) return user;
 
@@ -56,7 +66,7 @@ export class UserService {
     );
   }
 
-  async checkByEmail(email: string) {
+  async checkByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({ email });
     if (user) return user;
 
