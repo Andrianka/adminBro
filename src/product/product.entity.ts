@@ -1,5 +1,3 @@
-import { CartItem } from '../cart-item/cart-item.entity';
-import { Order } from '../order/order.entity';
 import {
   BaseEntity,
   Entity,
@@ -12,7 +10,9 @@ import {
   JoinTable,
   RelationId,
 } from 'typeorm';
-import { Category } from 'src/category/category.entity';
+import { CartItem } from '../cart-item/cart-item.entity';
+import { Order } from '../order/order.entity';
+import { Category } from '../category/category.entity';
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity {
