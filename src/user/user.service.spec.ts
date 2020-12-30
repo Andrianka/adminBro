@@ -69,7 +69,10 @@ describe('UserService', () => {
 
   describe('#findOne', () => {
     it('should return user', async () => {
-      const user = { id: 'thisId', email: 'user@mail.com' };
+      const user = ({
+        id: 'thisId',
+        email: 'user@mail.com',
+      } as unknown) as User;
 
       mockUserRepository.findOne.mockResolvedValue(user);
 
@@ -88,6 +91,22 @@ describe('UserService', () => {
 
       expect(mockUserRepository.findOne).toHaveBeenCalledWith(wrongId);
       await expect(result).rejects.toThrow('User with this id does not exist');
+    });
+  });
+
+  describe('#getProfile', () => {
+    it('should return user', async () => {
+      const user = ({
+        id: 'thisId',
+        email: 'user@mail.com',
+      } as unknown) as User;
+
+      mockUserRepository.findOne.mockResolvedValue(user);
+
+      const result = service.getProfile(user);
+
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith(user.id);
+      await expect(result).resolves.toEqual(user);
     });
   });
 

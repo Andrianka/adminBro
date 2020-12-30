@@ -17,7 +17,8 @@ import RequestWithUser from '../auth/interfaces/requestWithUser.interface';
 
 import JwtAuthenticationGuard from '../auth/guards/jwtAuth.guard';
 
-@Controller('users')
+@Controller('user')
+@UseGuards(JwtAuthenticationGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private userService: UserService) {}
@@ -27,13 +28,19 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get('profile')
+  public async getUserProfile(
+    @Req() req: RequestWithUser,
+  ): Promise<UserResponse> {
+    return this.userService.getProfile(req.user);
+  }
+
   @Get(':id')
   public async getUser(@Param('id') id): Promise<UserResponse> {
     return this.userService.findOne(id);
   }
 
   @Patch()
-  @UseGuards(JwtAuthenticationGuard)
   public async update(
     @Body() userData: UpdateUserDto,
     @Req() req: RequestWithUser,
@@ -42,7 +49,6 @@ export class UserController {
   }
 
   @Delete()
-  @UseGuards(JwtAuthenticationGuard)
   public async delete(@Req() req: RequestWithUser): Promise<any> {
     return this.userService.delete(req.user);
   }

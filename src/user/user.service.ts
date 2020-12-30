@@ -30,6 +30,17 @@ export class UserService {
     );
   }
 
+  public async getProfile(currentUser: User): Promise<User> {
+    const user = await this.userRepository.findOne(currentUser.id);
+    if (user) {
+      return user;
+    }
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
   async create(userData: CreateUserDto): Promise<UserResponse> {
     const hashedPassword = await this.hashPassword(userData.password);
     const newUser = this.userRepository.save({
