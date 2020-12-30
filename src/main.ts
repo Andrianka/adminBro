@@ -16,10 +16,11 @@ const isEnvironment = (environment: Environment): boolean =>
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
-  Resource.validate = validate;
-  AdminBro.registerAdapter({ Database, Resource });
-
-  app.useGlobalPipes(new ValidationPipe());
+  if (!isEnvironment(Environment.TEST)) {
+    Resource.validate = validate;
+    AdminBro.registerAdapter({ Database, Resource });
+  }
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   await app.listen(process.env.PORT);
 }
 bootstrap();
