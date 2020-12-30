@@ -21,6 +21,12 @@ export class OrderService {
     return await this.orderRepository.find();
   }
 
+  async findUserOrders(user: User): Promise<Order[]> {
+    return await this.orderRepository.find({
+      where: { user: { id: user.id } },
+    });
+  }
+
   async findOne(id: string): Promise<Order> {
     try {
       return await this.orderRepository.findOne(id);

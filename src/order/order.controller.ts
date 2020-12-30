@@ -1,11 +1,13 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   Param,
   Post,
   Req,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import RequestWithUser from '../auth/interfaces/requestWithUser.interface';
@@ -14,9 +16,10 @@ import { Order } from './order.entity';
 import CreateOrderDto from './dto/create-order.dto';
 
 import JwtAuthenticationGuard from '../auth/guards/jwtAuth.guard';
-// import { ProductResponse } from './interfaces/product.interface';
 
 @Controller('orders')
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(JwtAuthenticationGuard)
 export class OrderController {
   constructor(private orderService: OrderService) {}
 
@@ -25,13 +28,17 @@ export class OrderController {
     return this.orderService.findAll();
   }
 
+  @Get('user')
+  public async getUserOrders(@Req() req: RequestWithUser): Promise<Order[]> {
+    return this.orderService.findUserOrders(req.user);
+  }
+
   @Get(':id')
   public async getOrder(@Param('id') id): Promise<Order> {
     return this.orderService.findOne(id);
   }
 
   @Post()
-  @UseGuards(JwtAuthenticationGuard)
   public async create(
     @Body() orderData: CreateOrderDto,
     @Req() req: RequestWithUser,
