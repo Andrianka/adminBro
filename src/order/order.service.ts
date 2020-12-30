@@ -40,12 +40,12 @@ export class OrderService {
 
     const sum = await this.setTotalPrice(cartItems);
 
-    const newOrder = await this.orderRepository.save({
+    const newOrder = await this.orderRepository.create({
       cartItems,
       totalPrice: sum,
       user: user,
     });
-    return newOrder;
+    return newOrder.save();
   }
 
   private async setTotalPrice(cartItems): Promise<number> {
