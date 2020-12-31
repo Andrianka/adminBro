@@ -12,13 +12,12 @@ describe('AuthController (e2e)', () => {
 
   beforeAll(async () => {
     app = await createApp();
-    user = await createUser({
+    await createUser({
       email: 'email-existed@mail.com',
       password: await hashPassword(password),
       firstName: '',
       lastName: '',
     });
-    console.log('user', user);
     await app.init();
   });
 
@@ -97,7 +96,7 @@ describe('AuthController (e2e)', () => {
           firstName: '',
           lastName: '',
         });
-      console.log('TUTAJ', res.body);
+
       expect(res.status).toBe(201);
       expect(res.body.email).toEqual('test@mail.com');
     });
