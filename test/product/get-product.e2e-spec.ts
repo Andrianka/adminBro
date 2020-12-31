@@ -33,6 +33,13 @@ describe('ProductController (e2e)', () => {
     await app.init();
   });
 
+  afterAll(async () => {
+    await Category.delete({});
+    await Product.delete({});
+    await User.delete({});
+    await app.close();
+  });
+
   describe('/products/:id/ show available product', () => {
     it('should show product for authorized user', async () => {
       await request(app.getHttpServer())
@@ -51,24 +58,16 @@ describe('ProductController (e2e)', () => {
           expect(body.id).toEqual(products[0].id);
         });
     });
-    it('should not show product for authorized user', async () => {
+    it('should not show unavailable product for authorized user', async () => {
       await request(app.getHttpServer())
         .get(`/products/${products[2].id}`)
         .set({ Authorization: `Bearer ${userToken}` })
         .expect(404);
     });
-    it('should not show product for unauthorized user', async () => {
+    it('should not show unavailable product for unauthorized user', async () => {
       await request(app.getHttpServer())
         .get(`/products/${products[2].id}`)
         .expect(404);
     });
-  });
-
-  afterAll(async () => {
-    User.delete({});
-    Category.delete({});
-    Product.delete({});
-
-    await app.close();
   });
 });

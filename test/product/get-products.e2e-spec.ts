@@ -33,6 +33,13 @@ describe('ProductController (e2e)', () => {
     await app.init();
   });
 
+  afterAll(async () => {
+    await Category.delete({});
+    await Product.delete({});
+    await User.delete({});
+    await app.close();
+  });
+
   describe('/products/ show all products', () => {
     it('return status 200 for authorized user', async () => {
       return request(app.getHttpServer())
@@ -58,16 +65,7 @@ describe('ProductController (e2e)', () => {
 
           expect(productResponse.id).toEqual(products[0].id);
           expect(productResponse2.id).toEqual(products[1].id);
-          expect(body).not.toContainEqual(products[2].id);
         });
     });
-  });
-
-  afterAll(async () => {
-    User.delete({});
-    Category.delete({});
-    Product.delete({});
-
-    await app.close();
   });
 });

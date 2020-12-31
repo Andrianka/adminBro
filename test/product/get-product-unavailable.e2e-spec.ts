@@ -33,6 +33,13 @@ describe('ProductController (e2e)', () => {
     await app.init();
   });
 
+  afterAll(async () => {
+    await Category.delete({});
+    await Product.delete({});
+    await User.delete({});
+    await app.close();
+  });
+
   describe('/products/:id/archive show unvailable product', () => {
     it('should show product for authorized user', async () => {
       await request(app.getHttpServer())
@@ -62,13 +69,5 @@ describe('ProductController (e2e)', () => {
         .get(`/products/${products[0].id}/archive`)
         .expect(404);
     });
-  });
-
-  afterAll(async () => {
-    User.delete({});
-    Category.delete({});
-    Product.delete({});
-
-    await app.close();
   });
 });

@@ -33,6 +33,13 @@ describe('ProductController (e2e)', () => {
     await app.init();
   });
 
+  afterAll(async () => {
+    await Category.delete({});
+    await Product.delete({});
+    await User.delete({});
+    await app.close();
+  });
+
   describe('/products/archive show unvailable products', () => {
     it('should list all unavailable products for authorized user', async () => {
       await request(app.getHttpServer())
@@ -59,13 +66,5 @@ describe('ProductController (e2e)', () => {
           expect(productResponse.id).toEqual(products[2].id);
         });
     });
-  });
-
-  afterAll(async () => {
-    User.delete({});
-    Category.delete({});
-    Product.delete({});
-
-    await app.close();
   });
 });
