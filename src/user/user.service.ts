@@ -98,7 +98,10 @@ export class UserService {
 
   public async updatePasswordReset(user: User, token: string) {
     await this.userRepository.update(user.id, {
-      passwordReset: { token: token },
+      passwordReset: {
+        token: token,
+        createdAt: new Date(Date.now()),
+      },
     });
   }
 

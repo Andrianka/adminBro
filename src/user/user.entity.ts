@@ -17,7 +17,7 @@ export class PasswordReset {
   @Column({ type: 'uuid', nullable: true })
   public token!: string;
 
-  @CreateDateColumn({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   public createdAt?: Date;
 }
 
