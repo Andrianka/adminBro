@@ -17,7 +17,9 @@ import {
   PasswordResetDto,
   RequestPasswordResetDto,
 } from '../user/dto/password-reset.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {

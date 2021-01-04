@@ -13,6 +13,7 @@ import {
 import { CartItem } from '../cart-item/cart-item.entity';
 import { Order } from '../order/order.entity';
 import { Category } from '../category/category.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity {
@@ -20,9 +21,17 @@ export class Product extends BaseEntity {
   public id?: string;
 
   @Column({ type: 'varchar', nullable: false })
+  @ApiProperty({
+    example: 'car',
+    description: 'The title of the Product',
+  })
   public title: string;
 
   @Column({ type: 'text' })
+  @ApiProperty({
+    example: 'this is a description.',
+    description: 'The description of the Product',
+  })
   public description: string;
 
   @Column({
@@ -32,6 +41,10 @@ export class Product extends BaseEntity {
     scale: 2,
     default: 0,
   })
+  @ApiProperty({
+    example: 10,
+    description: 'The unit price of the Product',
+  })
   public price: number;
 
   @Column({
@@ -39,12 +52,18 @@ export class Product extends BaseEntity {
     nullable: false,
     default: 0,
   })
+  @ApiProperty({
+    example: 5,
+    description: 'The quantity of the Product',
+  })
   public quantity: number;
 
   @Column({ nullable: true, type: 'jsonb' })
+  @ApiProperty()
   public mainImage: any;
 
   @Column({ nullable: true, type: 'jsonb' })
+  @ApiProperty()
   public images: any;
 
   @CreateDateColumn({ name: 'created_at' })
@@ -54,6 +73,7 @@ export class Product extends BaseEntity {
   public updatedAt: Date;
 
   @Column({ name: 'is_available', default: false })
+  @ApiProperty()
   public isAvailable: boolean;
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.product)

@@ -16,8 +16,16 @@ import { Order } from './order.entity';
 import CreateOrderDto from './dto/create-order.dto';
 
 import JwtAuthenticationGuard from '../auth/guards/jwtAuth.guard';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('orders')
+@ApiBearerAuth()
+@ApiTags('orders')
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(JwtAuthenticationGuard)
 export class OrderController {

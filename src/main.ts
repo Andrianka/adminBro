@@ -8,7 +8,7 @@ import AdminBro from 'admin-bro';
 import { Database, Resource } from '@admin-bro/typeorm';
 import { validate } from 'class-validator';
 import { ValidationPipe } from '@nestjs/common';
-
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 const isEnvironment = (environment: Environment): boolean =>
@@ -21,6 +21,15 @@ async function bootstrap() {
     AdminBro.registerAdapter({ Database, Resource });
   }
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+
+  const options = new DocumentBuilder()
+    .setTitle('Shop example')
+    .setDescription('The shop API description')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(process.env.PORT);
 }
 bootstrap();

@@ -10,6 +10,8 @@ import { Exclude } from 'class-transformer';
 
 import { Order } from '../order/order.entity';
 
+import { ApiProperty } from '@nestjs/swagger';
+
 export class PasswordReset {
   @Exclude()
   @Column({ type: 'uuid', nullable: true })
@@ -24,16 +26,30 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
+  @ApiProperty({
+    example: 'test@mail.com',
+    description: 'The email of the User',
+  })
   @Column({ unique: true })
   email: string;
 
+  @ApiProperty({
+    example: 'password',
+    description: 'The password of the User',
+  })
   @Exclude({ toPlainOnly: true })
   @Column()
   password: string;
 
+  @ApiProperty({
+    description: 'The first name of the User',
+  })
   @Column({ nullable: true })
   firstName?: string;
 
+  @ApiProperty({
+    description: 'The last name of the User',
+  })
   @Column({ nullable: true })
   lastName?: string;
 

@@ -4,8 +4,16 @@ import { ProductService } from './product.service';
 import { Product } from './product.entity';
 
 import { ProductResponse } from './interfaces/product.interface';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('products')
+@ApiBearerAuth()
+@ApiTags('products')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
