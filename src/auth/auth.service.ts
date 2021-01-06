@@ -14,12 +14,14 @@ import tokenPayload from './interfaces/tokenPayload.interface';
 import { AuthResponse } from './interfaces/authResponse.interface';
 
 import { generateToken } from '../utils/generateToken';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   public async validateUser(email: string, new_password: string) {
@@ -89,7 +91,15 @@ export class AuthService {
     if (user) {
       await this.userService.updatePasswordReset(user, token);
 
-      //Send email
+      const content = {
+        user,
+        url: 'url_to_change_password',
+      };
+      await this.mailService.send({
+        emailTo: user.email,
+        template: 'request-password-reset',
+        content,
+      });
     }
   }
 

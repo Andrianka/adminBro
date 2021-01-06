@@ -5,6 +5,7 @@ import { User } from './user.entity';
 import { UserResponse } from './interfaces/user.interface';
 import CreateUserDto from './dto/create-user.dto';
 import UpdateUserDto from './dto/update-user.dto';
+import { MailService } from '../mail/mail.service';
 
 import * as argon2 from 'argon2';
 
@@ -13,6 +14,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly mailService: MailService,
   ) {}
 
   public findAll(): Promise<User[]> {
@@ -43,9 +45,17 @@ export class UserService {
 
   async create(userData: CreateUserDto): Promise<UserResponse> {
     const hashedPassword = await this.hashPassword(userData.password);
-    const newUser = this.userRepository.save({
+    const newUser = await this.userRepository.save({
       ...userData,
       password: hashedPassword,
+    });
+    const content = {
+      user: userData,
+    };
+    await this.mailService.send({
+      emailTo: newUser.email,
+      template: 'user-register',
+      content,
     });
     return newUser;
   }

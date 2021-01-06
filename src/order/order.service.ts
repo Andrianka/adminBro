@@ -9,12 +9,14 @@ import CreateOrderDto from './dto/create-order.dto';
 import CustomNotFoundException from '../exceptions/customNotFound.exception';
 import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectRepository(Order)
-    private orderRepository: Repository<Order>,
+    private readonly orderRepository: Repository<Order>,
+    private readonly mailService: MailService,
   ) {}
 
   async findAll(): Promise<Order[]> {
@@ -45,7 +47,18 @@ export class OrderService {
       totalPrice: sum,
       user: user,
     });
-    return newOrder.save();
+    await newOrder.save();
+
+    const content = {
+      order: newOrder,
+      user,
+    };
+    await this.mailService.send({
+      emailTo: user.email,
+      template: 'order-create',
+      content,
+    });
+    return newOrder;
   }
 
   private async setTotalPrice(cartItems): Promise<number> {
