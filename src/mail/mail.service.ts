@@ -13,7 +13,6 @@ export class MailService {
     template,
   }: mailInfo): Promise<SentMessageInfo> {
     try {
-      console.log('content', content);
       const emailData = this.mailerService.sendMail({
         to: emailTo,
         subject: content.subject,
