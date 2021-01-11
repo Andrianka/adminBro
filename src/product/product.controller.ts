@@ -11,6 +11,15 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export class ProductController {
   constructor(private productService: ProductService) {}
 
+  //Search products
+  @Get('search')
+  public async searchProducts(
+    @Query() paginationDto,
+    @Query('q') search: string,
+  ) {
+    return this.productService.searchProducts(search);
+  }
+
   // All Products available
   @Get()
   public async getProducts(

@@ -16,6 +16,9 @@ const isEnvironment = (environment: Environment): boolean =>
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+
+  app.setGlobalPrefix(process.env.GLOBAL_PREFIX);
+
   if (!isEnvironment(Environment.TEST)) {
     Resource.validate = validate;
     AdminBro.registerAdapter({ Database, Resource });

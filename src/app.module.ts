@@ -20,6 +20,8 @@ import adminAuthConfig from './admin-panel/admin-auth.config';
 import { OrderModule } from './order/order.module';
 import { CategoryModule } from './category/category.module';
 import { MailModule } from './mail/mail.module';
+import { SearchModule } from './search/search.module';
+import { ObserverModule } from './observer/observer.module';
 
 const env = process.env.NODE_ENV;
 
@@ -34,10 +36,10 @@ const env = process.env.NODE_ENV;
       ],
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
-    // AdminModule.createAdmin({
-    //   adminBroOptions: adminOptions,
-    //   // auth: adminAuthConfig,
-    // }),
+    AdminModule.createAdmin({
+      adminBroOptions: adminOptions,
+      // auth: adminAuthConfig,
+    }),
     AuthModule,
     ProductModule,
     UserModule,
@@ -46,6 +48,8 @@ const env = process.env.NODE_ENV;
     PhotoModule,
     CategoryModule,
     MailModule,
+    SearchModule,
+    ObserverModule,
   ],
   controllers: [AppController],
   providers: [AppService],
