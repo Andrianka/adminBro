@@ -28,13 +28,24 @@ export class ProductService {
     const body = {
       size: 12,
       query: {
-        multi_match: {
-          query: q,
-          fields: ['title', 'description'],
+        bool: {
+          filter: [
+            {
+              term: {
+                isAvailable: 'true',
+              },
+            },
+          ],
+          must: {
+            multi_match: {
+              query: q,
+              fields: ['title', 'description'],
+            },
+          },
         },
       },
     };
-    return { index: productIndex._index, body, q };
+    return { index: productIndex._index, body };
   }
 
   async searchProducts(search = '') {
