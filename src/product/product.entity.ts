@@ -6,14 +6,23 @@ import {
   CreateDateColumn,
   OneToMany,
   BeforeUpdate,
-  ManyToMany,
   JoinTable,
   RelationId,
+  ManyToMany,
 } from 'typeorm';
 import { CartItem } from '../cart-item/cart-item.entity';
 import { Order } from '../order/order.entity';
 import { Category } from '../category/category.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { ProductColor, ProductSize } from './types/productOptions.type';
+
+export class ProductOption {
+  @Column({ type: 'enum', enum: ProductColor, nullable: true })
+  public color: ProductColor;
+
+  @Column({ type: 'enum', enum: ProductSize, nullable: true })
+  public size: ProductSize;
+}
 
 @Entity({ name: 'product' })
 export class Product extends BaseEntity {
@@ -91,6 +100,9 @@ export class Product extends BaseEntity {
   })
   @JoinTable()
   categories: Category[];
+
+  @Column((type) => ProductOption)
+  public options?: ProductOption;
 
   @BeforeUpdate()
   async setAvailable() {

@@ -1,6 +1,6 @@
 import uploadFeature from '@admin-bro/upload';
 import AdminBro from 'admin-bro';
-import { saveCategory } from './product.actions';
+import { productAfterHook } from './product.actions';
 import { Product } from './product.entity';
 
 const shopNav = {
@@ -37,9 +37,9 @@ const ProductResource = {
       'mainImage',
     ],
     actions: {
-      new: { after: [saveCategory] },
+      new: { after: [productAfterHook] },
       edit: {
-        after: [saveCategory],
+        after: [productAfterHook],
       },
     },
   },
