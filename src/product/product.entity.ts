@@ -22,6 +22,14 @@ export class ProductOption {
 
   @Column({ type: 'enum', enum: ProductSize, nullable: true })
   public size: ProductSize;
+
+  @Column({
+    type: 'decimal',
+    nullable: true,
+    precision: 5,
+    scale: 3,
+  })
+  public weight: number;
 }
 
 @Entity({ name: 'product' })

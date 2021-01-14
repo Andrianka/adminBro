@@ -4,8 +4,8 @@ import { SearchServiceInterface } from '../interface/search.service.interface';
 import { Product } from '../../product/product.entity';
 
 const productIndex = {
-  _index: 'product',
-  _type: 'products',
+  _index: 'products',
+  _type: 'product',
 };
 
 @Injectable()
@@ -49,6 +49,7 @@ export class ProductElasticIndex {
       index: this.bulkIndex(product.id),
     });
     bulk.push(product);
+
     return {
       body: bulk,
       index: productIndex._index,

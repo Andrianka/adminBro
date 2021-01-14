@@ -13,10 +13,7 @@ export class ProductController {
 
   //Search products
   @Get('search')
-  public async searchProducts(
-    @Query() paginationDto,
-    @Query('q') search: string,
-  ) {
+  public async searchProducts(@Query() paginationDto, @Query() search: string) {
     return this.productService.searchProducts(search);
   }
 

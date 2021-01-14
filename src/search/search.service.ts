@@ -12,7 +12,7 @@ export class SearchService
   }
 
   public async insertIndex(bulkData: any): Promise<any> {
-    return this.bulk(bulkData)
+    return await this.bulk(bulkData)
       .then((res) => res)
       .catch((err) => {
         console.log(err);
@@ -21,7 +21,7 @@ export class SearchService
   }
 
   public async updateIndex(updateData: any): Promise<any> {
-    return this.update(updateData)
+    return await this.update(updateData)
       .then((res) => res)
       .catch((err) => {
         throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -29,7 +29,7 @@ export class SearchService
   }
 
   public async searchIndex(searchData: any): Promise<any> {
-    return this.search(searchData)
+    return await this.search(searchData)
       .then((res) => {
         const results = [];
         const hits = res.body.hits.hits;
@@ -53,7 +53,7 @@ export class SearchService
   }
 
   public async deleteDocument(indexData: any): Promise<any> {
-    return this.delete(indexData)
+    return await this.delete(indexData)
       .then((res) => res)
       .catch((err) => {
         throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);

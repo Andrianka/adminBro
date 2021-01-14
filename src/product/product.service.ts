@@ -11,8 +11,8 @@ import { ProductResponse } from './interfaces/product.interface';
 import { SearchServiceInterface } from '../search/interface/search.service.interface';
 
 export const productIndex = {
-  _index: 'product',
-  _type: 'products',
+  _index: 'products',
+  _type: 'product',
 };
 
 @Injectable()
@@ -24,21 +24,59 @@ export class ProductService {
     private readonly searchService: SearchServiceInterface<any>,
   ) {}
 
-  private productSearchObject(q) {
+  private getFilter(title, field, filter) {
+    const obj = {};
+    const result = [];
+    if (filter == 'terms') {
+      const searchData = title.replace(/\s+/g, '').split(',');
+      obj[field] = searchData;
+      result.push({ terms: obj });
+    }
+    if (filter == 'range') {
+      obj[field] = {
+        gte: title[0] ? title[0] : 0,
+        lte: title[1] ? title[1] : undefined,
+      };
+      result.push({ range: obj });
+    }
+    return result[0];
+  }
+
+  private checkObject(search) {
+    const filters = [];
+    filters.push({
+      term: {
+        isAvailable: 'true',
+      },
+    });
+    if (search.size)
+      filters.push(this.getFilter(search.size, 'options.size', 'terms'));
+    if (search.color)
+      filters.push(this.getFilter(search.color, 'options.color', 'terms'));
+    if (search.weight_from || search.weight_to)
+      filters.push(
+        this.getFilter(
+          [search.weight_from, search.weight_to],
+          'options.weight',
+          'range',
+        ),
+      );
+    if (search.price_from || search.price_to)
+      filters.push(
+        this.getFilter([search.price_from, search.price_to], 'price', 'range'),
+      );
+
+    return filters;
+  }
+  private productSearchObject(search) {
     const body = {
       size: 12,
       query: {
         bool: {
-          filter: [
-            {
-              term: {
-                isAvailable: 'true',
-              },
-            },
-          ],
+          filter: this.checkObject(search),
           must: {
             multi_match: {
-              query: q,
+              query: search.q,
               fields: ['title', 'description'],
             },
           },
