@@ -23,10 +23,27 @@ export class ProductSubscriber implements EntitySubscriberInterface<Product> {
   }
 
   public async afterInsert(event: InsertEvent<Product>): Promise<any> {
-    return this.productEsIndex.insertProductDocument(event.entity);
+    const result = this.prepareData(event.entity);
+    return this.productEsIndex.insertProductDocument(result);
   }
 
   public async afterUpdate(event: UpdateEvent<Product>): Promise<any> {
-    return this.productEsIndex.updateProductDocument(event.entity);
+    const result = this.prepareData(event.entity);
+    return this.productEsIndex.updateProductDocument(result);
+  }
+
+  private prepareData(product: Product) {
+    const {
+      quantity,
+      mainImage,
+      images,
+      cartItems,
+      order,
+      categoryIds,
+
+      ...result
+    } = product;
+    result['price'] = parseFloat(result.price.toString());
+    return result;
   }
 }

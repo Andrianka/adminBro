@@ -1,10 +1,10 @@
-import PostSearchBody from './productSearch.interface';
+import ProductSearch from './productSearch.interface';
 
 export default interface ProductSearchResult {
   hits: {
     total: number;
     hits: Array<{
-      _source: PostSearchBody;
+      _source: ProductSearch;
     }>;
   };
 }

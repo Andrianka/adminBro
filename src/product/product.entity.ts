@@ -14,7 +14,7 @@ import { CartItem } from '../cart-item/cart-item.entity';
 import { Order } from '../order/order.entity';
 import { Category } from '../category/category.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { ProductColor, ProductSize } from './types/productOptions.type';
+import { ProductColor, ProductSize } from './enums/productOptions.enum';
 
 export class ProductOption {
   @Column({ type: 'enum', enum: ProductColor, nullable: true })
