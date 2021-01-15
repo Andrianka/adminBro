@@ -9,6 +9,7 @@ import {
   JoinTable,
   RelationId,
   ManyToMany,
+  ManyToOne,
 } from 'typeorm';
 import { CartItem } from '../cart-item/cart-item.entity';
 import { Order } from '../order/order.entity';
@@ -96,8 +97,8 @@ export class Product extends BaseEntity {
   @OneToMany(() => CartItem, (cartItem) => cartItem.product)
   public cartItems!: CartItem[];
 
-  @OneToMany(() => Order, (order) => order.product)
-  public order: Order[];
+  @ManyToOne(() => Order, (order) => order.products)
+  public order: Order;
 
   @RelationId((product: Product) => product.categories)
   categoryIds: number[];

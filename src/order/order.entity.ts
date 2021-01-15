@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { CartItem } from '../cart-item/cart-item.entity';
 import { Product } from '../product/product.entity';
+import { OrderStatus, PaidStatus } from './enums/orderStatus.enum';
 
 @Entity({ name: 'order' })
 export class Order extends BaseEntity {
@@ -26,6 +27,20 @@ export class Order extends BaseEntity {
     default: 0,
   })
   public totalPrice: number;
+
+  @Column({ type: 'enum', enum: OrderStatus, nullable: false })
+  public status?: OrderStatus;
+
+  @Column({
+    type: 'enum',
+    enum: PaidStatus,
+    nullable: false,
+    name: 'paid_status',
+  })
+  public paidStatus?: PaidStatus;
+
+  @Column({ name: 'user_id' })
+  public userId: string;
 
   @CreateDateColumn({ name: 'created_at' })
   public createdAt?: Date;
@@ -44,5 +59,5 @@ export class Order extends BaseEntity {
   public cartItems!: CartItem[];
 
   @OneToMany(() => Product, (product) => product.order)
-  public product: Product[];
+  public products: Product[];
 }

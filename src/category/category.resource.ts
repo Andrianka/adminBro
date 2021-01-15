@@ -11,7 +11,14 @@ const CategoryResource = {
     properties: {
       title: { isRequired: true, isTitle: true },
     },
-    listProperties: ['title'],
+    actions: {
+      show: {
+        isAccessible: false,
+      },
+      edit: { showInDrawer: true },
+      new: { showInDrawer: true },
+    },
+    listProperties: ['id', 'title'],
   },
 };
 

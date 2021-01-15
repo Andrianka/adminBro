@@ -10,6 +10,7 @@ import CustomNotFoundException from '../exceptions/customNotFound.exception';
 import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
 import { MailService } from '../mail/mail.service';
+import { OrderStatus, PaidStatus } from './enums/orderStatus.enum';
 
 @Injectable()
 export class OrderService {
@@ -45,6 +46,8 @@ export class OrderService {
     const newOrder = await this.orderRepository.create({
       cartItems,
       totalPrice: sum,
+      status: OrderStatus.New,
+      paidStatus: PaidStatus.NonPaid,
       user: user,
     });
     await newOrder.save();

@@ -41,6 +41,9 @@ export class CartItem extends BaseEntity {
   })
   public totalPrice?: number;
 
+  @Column({ name: 'order_id' })
+  public orderId!: string;
+
   @Column({ name: 'product_id' })
   public productId!: string;
 

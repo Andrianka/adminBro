@@ -31,3 +31,7 @@ import Component15 from '../node_modules/@admin-bro/upload/src/features/upload-f
 AdminBro.UserComponents.Component15 = Component15
 import Component16 from '../node_modules/@admin-bro/upload/src/features/upload-file/components/show'
 AdminBro.UserComponents.Component16 = Component16
+import Component17 from '../dist/order/components/list-products'
+AdminBro.UserComponents.Component17 = Component17
+import Component18 from '../dist/order/components/show-products'
+AdminBro.UserComponents.Component18 = Component18

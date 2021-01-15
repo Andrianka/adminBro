@@ -35,6 +35,7 @@ const ProductResource = {
       'price',
       'quantity',
       'mainImage',
+      'isAvailable',
     ],
     actions: {
       new: { after: [productAfterHook] },
