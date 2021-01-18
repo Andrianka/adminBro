@@ -42,6 +42,7 @@
     "@nestjs/serve-static": "^2.1.4",
     "@nestjs/swagger": "^4.7.7",
     "@nestjs/typeorm": "^7.1.5",
+    "@stripe/stripe-js": "^1.11.0",
     "admin-bro": "^3.3.1",
     "argon2": "^0.27.0",
     "aws-sdk": "^2.804.0",
@@ -63,6 +64,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
+    "stripe": "^8.131.1",
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.29"
   },
@@ -76,6 +78,7 @@
     "@types/nodemailer": "^6.4.0",
     "@types/passport": "^1.0.4",
     "@types/passport-jwt": "^3.0.3",
+    "@types/stripe": "^8.0.417",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",

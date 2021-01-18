@@ -22,6 +22,7 @@ import { CategoryModule } from './category/category.module';
 import { MailModule } from './mail/mail.module';
 import { SearchModule } from './search/search.module';
 import { ObserverModule } from './observer/observer.module';
+import { PaymentModule } from './payment/payment.module';
 
 const env = process.env.NODE_ENV;
 
@@ -50,6 +51,7 @@ const env = process.env.NODE_ENV;
     MailModule,
     SearchModule,
     ObserverModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
