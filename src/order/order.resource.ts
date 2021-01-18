@@ -1,5 +1,7 @@
 import AdminBro, { unflatten } from 'admin-bro';
-import { Product } from 'src/product/product.entity';
+import { Product } from '../product/product.entity';
+import { changeStatus } from './actions/change-status.action';
+import { OrderStatus } from './enums/orderStatus.enum';
 import { Order } from './order.entity';
 
 const shopNav = {
@@ -49,6 +51,16 @@ const OrderResource = {
             record: record.toJSON(context.currentAdmin),
           };
         },
+      },
+      edit: { isVisible: false, isAccessible: false },
+      changeStatus: {
+        isVisible: (context) =>
+          [OrderStatus.New, OrderStatus.InProgress].includes(
+            context.record.param('status'),
+          ),
+        actionType: 'record',
+        handler: changeStatus,
+        component: false,
       },
     },
   },

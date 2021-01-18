@@ -12,6 +12,7 @@ import {
 import { CartItem } from '../cart-item/cart-item.entity';
 import { Product } from '../product/product.entity';
 import { OrderStatus, PaidStatus } from './enums/orderStatus.enum';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Entity({ name: 'order' })
 export class Order extends BaseEntity {
@@ -60,4 +61,22 @@ export class Order extends BaseEntity {
 
   @OneToMany(() => Product, (product) => product.order)
   public products: Product[];
+
+  async changeStatus() {
+    if (
+      this.status === OrderStatus.New ||
+      this.status === OrderStatus.InProgress
+    ) {
+      switch (this.status) {
+        case OrderStatus.New:
+          this.status = OrderStatus.InProgress;
+          break;
+        case OrderStatus.InProgress:
+          this.status = OrderStatus.Completed;
+          break;
+      }
+      this.save();
+    }
+    return this;
+  }
 }
