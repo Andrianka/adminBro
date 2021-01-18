@@ -79,4 +79,22 @@ export class Order extends BaseEntity {
     }
     return this;
   }
+
+  async cancelOrder() {
+    if (this.status === OrderStatus.Cancel)
+      throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+    if (this.paidStatus !== PaidStatus.Paid) {
+      this.status = OrderStatus.Cancel;
+    } else {
+      this.status = OrderStatus.Cancel;
+      console.log('Refund');
+      // TODO: REFUND COSTS
+    }
+    return this.save();
+  }
+
+  async reopenOrder() {
+    if (this.status === OrderStatus.Cancel) this.status = OrderStatus.New;
+    return this.save();
+  }
 }

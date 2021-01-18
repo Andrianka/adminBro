@@ -1,7 +1,9 @@
 import AdminBro, { unflatten } from 'admin-bro';
 import { Product } from '../product/product.entity';
 import { changeStatus } from './actions/change-status.action';
-import { OrderStatus } from './enums/orderStatus.enum';
+import { cancelOrder } from './actions/cancel-order.action';
+import { reopenOrder } from './actions/reopen-order.action';
+import { OrderStatus, PaidStatus } from './enums/orderStatus.enum';
 import { Order } from './order.entity';
 
 const shopNav = {
@@ -60,6 +62,21 @@ const OrderResource = {
           ),
         actionType: 'record',
         handler: changeStatus,
+        component: false,
+      },
+      cancelOrder: {
+        isVisible: (context) =>
+          context.record.param('status') !== OrderStatus.Cancel,
+
+        actionType: 'record',
+        handler: cancelOrder,
+        component: false,
+      },
+      reopenOrder: {
+        isVisible: (context) =>
+          context.record.param('status') === OrderStatus.Cancel,
+        actionType: 'record',
+        handler: reopenOrder,
         component: false,
       },
     },
