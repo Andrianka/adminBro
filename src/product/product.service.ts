@@ -100,8 +100,8 @@ export class ProductService {
     paginationDto: ProductPaginationDto,
   ): Promise<PaginatedProductsResult> {
     const skippedItems = (paginationDto.page - 1) * paginationDto.limit;
-    const totalCount = await this.productRepository.count();
-    const products = await this.productRepository.find({
+
+    const products = await this.productRepository.findAndCount({
       where: {
         isAvailable: available !== null ? available : Any(['true', 'false']),
       },
@@ -111,10 +111,10 @@ export class ProductService {
     });
 
     return {
-      totalCount,
+      totalCount: products[1],
       page: paginationDto.page,
       limit: paginationDto.limit,
-      data: products,
+      data: products[0],
     };
   }
 

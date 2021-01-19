@@ -54,6 +54,7 @@ const OrderResource = {
           };
         },
       },
+      new: { isVisible: false, isAccessible: false },
       edit: { isVisible: false, isAccessible: false },
       changeStatus: {
         isVisible: (context) =>

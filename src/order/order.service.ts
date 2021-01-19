@@ -67,7 +67,7 @@ export class OrderService {
   private async setTotalPrice(cartItems): Promise<number> {
     const sum = cartItems.reduce(
       async (a, { quantity, productId }) =>
-        a + quantity * (await (await Product.findOne(productId)).price),
+        (await a) + quantity * (await (await Product.findOne(productId)).price),
       0,
     );
     return sum;

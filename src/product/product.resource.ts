@@ -27,8 +27,10 @@ const ProductResource = {
       s3Key: { isVisible: false },
       bucket: { isVisible: false },
       path: { isVisible: false },
+      orderId: { isVisible: false },
     },
     listProperties: [
+      'id',
       'categories',
       'title',
       'description',
@@ -39,7 +41,9 @@ const ProductResource = {
     ],
     actions: {
       new: { after: [productAfterHook] },
+
       edit: {
+        showInDrawer: true,
         after: [productAfterHook],
       },
     },

@@ -51,7 +51,7 @@ const EditCategory: React.FC<EditPropertyProps> = (props) => {
 
   return (
     <FormGroup>
-      <Label property={property} />
+      <Label>Category</Label>
       <Select
         defaultValue={selectedOption}
         isMulti
