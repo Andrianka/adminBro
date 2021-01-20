@@ -20,6 +20,15 @@ const CartItemResource = {
       },
     },
     listProperties: ['productId', 'orderId', 'quantity'],
+    sort: {
+      sortBy: 'createdAt',
+      direction: 'desc',
+    },
+    actions: {
+      new: { isVisible: false, isAccessible: false },
+      edit: { isVisible: false, isAccessible: false },
+      show: { showInDrawer: true },
+    },
   },
 };
 

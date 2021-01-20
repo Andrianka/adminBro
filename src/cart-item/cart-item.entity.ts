@@ -11,6 +11,7 @@ import {
   ManyToOne,
   JoinColumn,
   BeforeInsert,
+  AfterInsert,
 } from 'typeorm';
 
 @Entity({ name: 'cart_item' })
@@ -67,14 +68,23 @@ export class CartItem extends BaseEntity {
 
   @BeforeInsert()
   async updateAfterOrder() {
-    const getProduct = await Product.findOne({
+    const getProduct = await this.findProduct();
+    await this.setPrice(getProduct);
+    await this.checkProductQuantity(getProduct);
+  }
+  @AfterInsert()
+  async updateProductQuantity() {
+    const getProduct = await this.findProduct();
+    await this.changeProductQuantity(getProduct);
+  }
+
+  private async findProduct() {
+    const product = await Product.findOne({
       id: this.productId,
       isAvailable: true,
     });
-    if (!getProduct) throw new CustomNotFoundException('Product');
-
-    await this.setPrice(getProduct);
-    await this.changeProductQuantity(getProduct);
+    if (!product) throw new CustomNotFoundException('Product');
+    return product;
   }
 
   private async setPrice(getProduct) {
@@ -84,11 +94,15 @@ export class CartItem extends BaseEntity {
   }
 
   private async changeProductQuantity(getProduct) {
+    const product = await this.checkProductQuantity(getProduct);
+    return await product.save();
+  }
+
+  private async checkProductQuantity(getProduct) {
     getProduct.quantity -= this.quantity;
 
     if (getProduct.quantity < 0)
       throw new ProductAvailableException('Products');
-
-    return await getProduct.save();
+    return getProduct;
   }
 }

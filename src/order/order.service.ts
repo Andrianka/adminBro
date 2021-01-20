@@ -30,9 +30,11 @@ export class OrderService {
     });
   }
 
-  async findOne(id: string): Promise<Order> {
+  async findOne(id: string, user: User): Promise<Order> {
     try {
-      return await this.orderRepository.findOne(id);
+      return await this.orderRepository.findOne(id, {
+        where: { user: { id: user.id } },
+      });
     } catch (error) {
       throw new CustomNotFoundException('Order');
     }
@@ -43,25 +45,33 @@ export class OrderService {
 
     const sum = await this.setTotalPrice(cartItems);
 
-    const newOrder = await this.orderRepository.create({
-      cartItems,
-      totalPrice: sum,
-      status: OrderStatus.New,
-      paidStatus: PaidStatus.NonPaid,
-      user: user,
-    });
-    await newOrder.save();
+    try {
+      //create Order with cart items
+      const newOrder = await this.orderRepository.create({
+        cartItems,
+        totalPrice: sum,
+        status: OrderStatus.New,
+        paidStatus: PaidStatus.NonPaid,
+        user: user,
+      });
+      await newOrder.save();
 
-    const content = {
-      order: newOrder,
-      user,
-    };
-    await this.mailService.send({
-      emailTo: user.email,
-      template: 'order-create',
-      content,
-    });
-    return newOrder;
+      //send email
+      const content = {
+        order: newOrder,
+        user,
+      };
+      await this.mailService.send({
+        emailTo: user.email,
+        template: 'order-create',
+        content,
+      });
+
+      return newOrder;
+    } catch (error) {
+      const errorMessage = 'Something went wrong: ' + error.message;
+      console.log(errorMessage);
+    }
   }
 
   private async setTotalPrice(cartItems): Promise<number> {

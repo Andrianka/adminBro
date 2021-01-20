@@ -42,8 +42,11 @@ export class OrderController {
   }
 
   @Get(':id')
-  public async getOrder(@Param('id') id): Promise<Order> {
-    return this.orderService.findOne(id);
+  public async getOrder(
+    @Param('id') id,
+    @Req() req: RequestWithUser,
+  ): Promise<Order> {
+    return this.orderService.findOne(id, req.user);
   }
 
   @Post()
